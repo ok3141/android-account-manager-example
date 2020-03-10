@@ -14,10 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-
-    @SuppressWarnings("unused")
-    private static final String TAG = "MainActivity";
-
     private static final int REQ_SIGNUP = 1;
 
     private AccountManager mAccountManager;
@@ -101,18 +97,14 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_close_session:
-
-                // Clear session and ask for new auth token
-                mAccountManager.invalidateAuthToken(AccountUtils.ACCOUNT_TYPE, authToken);
-                mAuthPreferences.setAuthToken(null);
-                mAuthPreferences.setUsername(null);
-                mAccountManager.getAuthTokenByFeatures(AccountUtils.ACCOUNT_TYPE, AccountUtils.AUTH_TOKEN_TYPE, null, this, null, null, new GetAuthTokenCallback(), null);
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_close_session) {// Clear session and ask for new auth token
+            mAccountManager.invalidateAuthToken(AccountUtils.ACCOUNT_TYPE, authToken);
+            mAuthPreferences.setAuthToken(null);
+            mAuthPreferences.setUsername(null);
+            mAccountManager.getAuthTokenByFeatures(AccountUtils.ACCOUNT_TYPE, AccountUtils.AUTH_TOKEN_TYPE, null, this, null, null, new GetAuthTokenCallback(), null);
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 }
